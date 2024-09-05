@@ -8,7 +8,17 @@
 */
 
 function isAnagram(str1, str2) {
+    //remove non-alphabetic character
+    str1 = str1.replace(/\s/g, '').toLowerCase();
+    str2 = str2.replace(/\s/g, '').toLowerCase();
 
+    console.log(str1, str2);
+
+    // if length are not equal, they connot anagrams
+    if (str1.length !== str2.length) {
+        return false;
+    }
+    return str1.split('').sort().join('') === str2.split('').sort().join('');
 }
 
-module.exports = isAnagram;
+export { isAnagram };

@@ -1,11 +1,9 @@
-const isAnagram = require('../easy/anagram');
+import { isAnagram } from '../easy/anagram.js';
 
 describe('isAnagram', () => {
 	test('returns true for anagrams', () => {
 		expect(isAnagram('listen', 'silent')).toBe(true);
-		expect(isAnagram('rail safety', 'fairy tales')).toBe(
-			true
-		);
+		expect(isAnagram('rail safety', 'fairy tales')).toBe(true);
 		expect(isAnagram('openai', 'aiopen')).toBe(true);
 		expect(isAnagram('', '')).toBe(true);
 	});
@@ -18,12 +16,8 @@ describe('isAnagram', () => {
 	});
 
 	test('returns true for anagrams with different casing', () => {
-		expect(isAnagram('Debit Card', 'Bad Credit')).toBe(
-			true
-		);
-		expect(
-			isAnagram('School MASTER', 'The ClassROOM')
-		).toBe(true);
+		expect(isAnagram('Debit Card', 'Bad Credit')).toBe(true);
+		expect(isAnagram('School MASTER', 'The ClassROOM')).toBe(true);
 	});
 
 	test('returns true for anagrams with special characters', () => {
