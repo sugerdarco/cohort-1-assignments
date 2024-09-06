@@ -1,5 +1,5 @@
-const http = require('http');
-const server = require('../authenticationServer');
+import http from "http";
+import server from "../authenticationServer.js";
 
 const email = 'testuser@gmail.com';
 const password = 'testpassword';

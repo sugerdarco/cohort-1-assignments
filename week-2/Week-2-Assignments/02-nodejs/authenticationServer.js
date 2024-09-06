@@ -29,9 +29,79 @@
   Testing the server - run `npm run test-authenticationServer` command in terminal
  */
 
-const express = require("express")
-const PORT = 3000;
-const app = express();
-// write your logic here, DONT WRITE app.listen(3000) when you're running tests, the tests will automatically start the server
+import express from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
-module.exports = app;
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+
+const users = [];
+
+
+app.post('/signup', (req, res) => {
+  const { username, password, firstName, lastName } = req.body;
+
+  const existingUser = users.find(user => user.username === username);
+  if (existingUser) {
+    return res.status(400).json({ message: 'Username already exists' });
+  }
+
+
+  const newUser = {
+    id: uuidv4(),
+    username,
+    password,
+    firstName,
+    lastName,
+  };
+
+  users.push(newUser);
+  res.status(201).json({ message: 'User created successfully', userId: newUser.id });
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  const user = users.find(u => u.username === username && u.password === password);
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  res.status(200).json({
+    message: 'Login successful',
+    user: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    },
+  });
+});
+
+app.get('/data', (req, res) => {
+  const { username, password } = req.headers;
+
+  if (!username || !password) {
+    return res.status(401).json({ message: 'Unauthorized: Missing credentials' });
+  }
+
+  const authenticatedUser = users.find(u => u.username === username && u.password === password);
+  if (!authenticatedUser) {
+    return res.status(401).json({ message: 'Unauthorized: Invalid credentials' });
+  }
+
+  const userList = users.map(u => ({
+    id: u.id,
+    firstName: u.firstName,
+    lastName: u.lastName,
+  }));
+
+  res.status(200).json({ users: userList });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+export default app;

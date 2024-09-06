@@ -1,7 +1,8 @@
-const http = require('http');
-const path = require('path');
-const fs = require('fs');
-const server = require('../fileServer');
+import http from "http";
+import path from "path";
+import fs from "fs";
+import server from "../fileServer.js";
+
 describe('API Endpoints', () => {
   let globalServer;
 
