@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        div {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 1rem;
+            display: inline-block;
+            width: 150px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            font-size: 1rem;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .all-todos, .todo-by-id, .updated_todo {
+            margin-top: 20px;
+        }
+
+        .divider {
+            margin: 20px 0;
+            border-bottom: 2px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h2>Title</h2>
+    <label for="todo-title">Todo Title:</label>
+    <input type="text" id="todo-title">
+    <h2>Todo description</h2>
+    <label for="todo-description">Description:</label>
+    <input type="text" id="todo-description">
+    <br><br>
+    <button onclick="addTodo()">Add Todo</button>
+</div>
+
+<div class="divider"></div>
+
+<div>
+    <h2>Find Todo By ID</h2>
+    <label for="todo-id">Todo ID:</label>
+    <input type="text" id="todo-id">
+    <button onclick="todoByID()">Get Todo By ID</button>
+    <br><br>
+    <div class="todo-by-id"></div>
+</div>
+
+<div class="divider"></div>
+
+<div>
+    <h2>Update Todo</h2>
+    <label for="update-todo-id">Todo ID:</label>
+    <input type="text" id="update-todo-id">
+    <h2>Todo Title</h2>
+    <label for="update-todo-title">New Title:</label>
+    <input type="text" id="update-todo-title">
+    <h2>Todo Description</h2>
+    <label for="update-todo-description">New Description:</label>
+    <input type="text" id="update-todo-description">
+    <br><br>
+    <button onclick="updateTodo()">Update Todo</button>
+    <br><br>
+    <div class="updated_todo"></div>
+</div>
+
+<div class="divider"></div>
+
+<h1>All Todos</h1>
+<div class="all-todos"></div>
+
+<script src="scripts.js"></script>
+</body>
+</html>

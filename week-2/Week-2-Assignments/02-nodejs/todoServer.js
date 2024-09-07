@@ -45,12 +45,18 @@ import {v4 as uuidv4} from "uuid";
 import {readdir, readFile, writeFile, unlink} from "fs/promises";
 import path from "path";
 import {fileURLToPath} from "url";
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const todosDirectory = path.join(__dirname, "todos");
+
+app.use(cors({
+    origin: "*"
+}))
+app.use(express.json());
 
 /**
  const todos = [];
@@ -144,9 +150,9 @@ const custom_readFile = async (filename) => {
   const lines = todo_content.split("\n");
   lines.forEach((line) => {
     const [key, value] = line.split(":").map(part => part.trim());
+    todo["id"] = filename;
     todo[key] = value;
   });
-
   return todo;
 }
 
@@ -154,7 +160,11 @@ app.get("/todos", async (req, res) => {
 
   const todos_list = await readdir(todosDirectory);
   const todos = [];
-  todos_list.forEach(todo_id => todos.push(custom_readFile(todo_id)));
+
+  for (const todo_id of todos_list) {
+      const todo = await custom_readFile(todo_id);
+      todos.push(todo);
+  }
 
   return res.json({
     message: "todos fetched successfully",
@@ -216,18 +226,17 @@ app.put("/todos/:id", async (req, res) => {
   }
 
   const existingTodo = await custom_readFile(id);
-  const updatedTodo = `title: ${title ? title : existingTodo.title}\n
-                              description: ${description ? description : existingTodo.description}`;
+  const updatedTodo = `title: ${title ? title : existingTodo.title}\ndescription: ${description ? description : existingTodo.description}`;
 
   const todo_path = path.join(todosDirectory, id);
   await writeFile(todo_path, updatedTodo, {flag: "w"});
 
   return res.status(200).json({
     message: "todo updated successfully",
-    UpdatedTodo: {
+    updatedTodo: {
       id: id,
-      title: existingTodo.title,
-      description: existingTodo.description,
+      title: title || existingTodo.title,
+      description: description || existingTodo.description
     }
   });
 });
@@ -258,4 +267,8 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Not Found' });
 });
 
-export default app;
+// export default app;
+
+app.listen(3000, () => {
+    console.log("Server started on port 3000");
+})
