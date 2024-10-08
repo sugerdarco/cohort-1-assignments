@@ -1,6 +1,9 @@
-import { useState } from "react";
+import {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {Button} from "@mui/material";
+import {TextField} from "@mui/material";
+
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -17,7 +20,7 @@ function Login() {
         }
 
         setError("");
-        axios.post(`http://localhost:3000/admin/login`,
+        axios.post(`http://localhost:3000/users/login`,
             {},
             {
                 headers: {
@@ -44,16 +47,19 @@ function Login() {
     };
 
     return (
-        <div>
-            <h1>Login to admin dashboard</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={login}>
-                    Username: <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} /><br/>
-                    Password: <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br/>
-                <button type="submit">Login</button>
-            </form>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+            <h1 style={{margin: " 10px auto"}}>Login to admin dashboard</h1>
+            {error && <p style={{ color: 'red', margin: "auto" }}>{error}</p>}
+            <form onSubmit={login} style={{ margin: "10px auto" }}>
+                <TextField id="outlined-basic" label="Username *" variant="outlined" value={username} onChange={e => setUsername(e.target.value)} style={{ margin: "10px auto", width: "300px" }} /><br/>
+                <TextField type="password" id="outlined-basic" label="Password *" variant="outlined" value={password} onChange={e => setPassword(e.target.value)} style={{ margin: "10px auto", width: "300px" }}/><br/>
+                <Button variant="contained" type="submit" style={{ margin: "10px 6.1rem" }}>Login</Button>
+        </form>
             <br />
-            New here? <a href="/register">Register</a>
+            <div style={{margin: "auto"}}>
+                New here? <Link to="/register" style={{margin: "auto"}}>Register</Link>
+            </div>
+
         </div>
     );
 }

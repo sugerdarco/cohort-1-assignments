@@ -17,7 +17,7 @@ function Login() {
         }
 
         setError("");
-        axios.post(`http://localhost:3000/admin/login`,
+        axios.post(`http://localhost:3000/users/login`,
             {},
             {
                 headers: {

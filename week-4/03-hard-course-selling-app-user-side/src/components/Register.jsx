@@ -19,7 +19,7 @@ function Register() {
 
         setError(""); // Clear any previous errors
 
-        axios.post("http://localhost:3000/admin/signup",
+        axios.post("http://localhost:3000/users/signup",
             {},
             {
                 headers: {

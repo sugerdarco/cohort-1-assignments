@@ -3,11 +3,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import mongoose, { isValidObjectId } from "mongoose";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 await mongoose.connect(`${process.env.MONGODB_URI}/${process.env.DB_NAME}`);
 
@@ -45,7 +47,7 @@ const generateUserToken = (user) => {
 };
 
 const verifyToken = async (req, res, next, model) => {
-  const token = req.headers.authorization;
+  const token = req.headers.authorization.trim().replace("Bearer ", "");
   if (!token) return res.status(403).json({ message: "No token provided" });
 
   try {
@@ -88,7 +90,7 @@ app.post("/admin/login", async (req, res) => {
 });
 
 app.post("/admin/courses", verifyTokenAdmin, async (req, res) => {
-  const { title, description, price = 100, thumbnail, isPublished = false } = req.body;
+  const { title, description, price = 100, thumbnail = "no-thumbnail", isPublished = true } = req.body;
   if (!title || !thumbnail) {
     return res.status(400).json({ message: "Title and thumbnail are required" });
   }
@@ -174,7 +176,7 @@ app.post("/users/courses/:courseId", verifyTokenUser, async (req, res) => {
     if (!course) return res.status(404).json({ message: "Course not found" });
     const user = await User.findById(req.user._id);
     if (user.purchasedCourses.includes(courseId)) {
-      return res.status(400).json({ message: "Course already purchased" });
+      return res.status(200).json({ message: "Course already purchased" });
     }
     user.purchasedCourses.push(courseId);
     await user.save();

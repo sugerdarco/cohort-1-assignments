@@ -1,17 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import './index.css'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Landing from "./components/Landing.jsx";
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import Layout from "./Layout.jsx";
 import Login from "./components/Login.jsx";
 import Register from "./components/Register.jsx";
+import Landing from "./components/Landing.jsx";
 import ShowCourses from "./components/ShowCourses.jsx";
-import CreateCourse from "./components/CreateCourse.jsx";
-import Layout from "./Layout.jsx";
+import ShowPurchasedCourses from "./components/ShowPurchasedCourses.jsx";
+
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: '/',
         element: <Layout />,
         children: [
             {
@@ -20,26 +21,27 @@ const router = createBrowserRouter([
             },
             {
                 path: "login",
-                element: <Login />
+                element: <Login />,
             },
             {
                 path: "register",
-                element: <Register />
+                element: <Register />,
             },
             {
                 path: "courses",
                 element: <ShowCourses />,
+
             },
             {
-                path: "courses/new",
-                element: <CreateCourse />
+                path: "courses/purchased",
+                element: <ShowPurchasedCourses />
             }
         ]
     },
 ])
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <RouterProvider router={router}></RouterProvider>
+  </StrictMode>,
 )

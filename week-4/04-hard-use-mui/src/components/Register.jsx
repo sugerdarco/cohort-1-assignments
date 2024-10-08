@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {Link, useNavigate} from "react-router-dom"; // Correct import
 import axios from "axios";
+import {Button, TextField} from "@mui/material";
 
 function Register() {
     const [username, setUsername] = useState("");
@@ -19,7 +20,7 @@ function Register() {
 
         setError(""); // Clear any previous errors
 
-        axios.post("http://localhost:3000/admin/signup",
+        axios.post("http://localhost:3000/users/signup",
             {},
             {
                 headers: {
@@ -46,17 +47,20 @@ function Register() {
     }
 
     return (
-        <div>
-            <h1>Register to the website</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={register}>
-                    Username: <input type="text" value={username} onChange={e => setUsername(e.target.value)} /><br/>
-                    Email: <input type="text" value={email} onChange={e => setEmail(e.target.value)} /><br/>
-                    Password: <input type="password" value={password} onChange={e => setPassword(e.target.value)} /><br/>
-                <button type="submit">Register</button>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+            <h1 style={{margin: " 10px auto"}}>Register to the website</h1>
+            {error && <p style={{ color: 'red', margin: "auto" }} >{error}</p>}
+            <form onSubmit={register} style={{ margin: "10px auto" }}>
+                <TextField id="outlined-basic" label="Username *" variant="outlined" value={username} onChange={e => setUsername(e.target.value)} style={{ margin: "10px auto", width: "300px" }} /><br/>
+                <TextField id="outlined-basic" label="Email *" variant="outlined" value={email} onChange={e => setEmail(e.target.value)} style={{ margin: "10px auto", width: "300px" }} /><br/>
+                <TextField type="password" id="outlined-basic" label="Password *" variant="outlined" value={password} onChange={e => setPassword(e.target.value)} style={{ margin: "10px auto", width: "300px" }}/><br/>
+                <Button variant="contained" type="submit" style={{ margin: "10px 6.1rem" }}>Register</Button>
             </form>
             <br />
-            Already a user? <Link to="/login">Login</Link>
+            <div style={{ margin: "auto" }}>
+                Already a user? <Link to="/login">Login</Link>
+            </div>
+
         </div>
     );
 }
